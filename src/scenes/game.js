@@ -24,6 +24,10 @@ export default function game() {
     // Spawning entity
     const sonic = makeSonic(k.vec2(200, 745));
 
+    // Controls settings
+    sonic.setControls();
+    sonic.setEvents();
+
     // Speed settings
     let gameSpeed = 300;
     k.loop(1, () => { // In seconds
