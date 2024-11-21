@@ -8,13 +8,42 @@ export default function mainMenu() {
 
     const bgPieceWidth = 1920;
     const bgPieces = [
-        // We create and position a game object with the sprite selected
-        k.add([k.sprite("chemical-bg"), k.pos(0, 0), k.scale(2), k.opacity(0.8)]),
+        // We create and position a game object with the sprite selected. k.area() to see hit-boxes
+        k.add([k.sprite("chemical-bg"), k.pos(0, 0), k.scale(2), k.opacity(0.8),]),
         k.add([
             k.sprite("chemical-bg"),
-            k.pos(bgPieceWidth, 0),
+            k.pos(bgPieceWidth * 2, 0),
             k.scale(2),
             k.opacity(0.8),
         ]),
     ];
+
+    const platformsWidth = 1280;
+    const platforms = [
+        k.add([k.sprite("platforms"), k.pos(0, 450), k.scale(4)]),
+        k.add([k.sprite("platforms"), k.pos(platformsWidth * 4, 450), k.scale(4)]),
+    ];
+
+    // The function that is going to run every frame
+    k.onUpdate(() => {
+        // Background infinite animation
+        if (bgPieces[1].pos.x < 0) {
+            bgPieces[0].moveTo(bgPieces[1].pos.x + bgPieceWidth * 2, 0); // 0 for the y axis
+            bgPieces.push(bgPieces.shift()); // Switching positions
+        }
+
+        // Velocity settings
+        bgPieces[0].move(-100, 0);
+        // The second background piece moveTo the footsteps of the first bgPiece x position to create an infinte scrolling animation of the background
+        bgPieces[1].moveTo(bgPieces[0].pos.x + bgPieceWidth * 2, 0);
+
+        // Platforms infinite animation
+        if (platforms[1].pos.x < 0) {
+            platforms[0].moveTo(platforms[1].pos.x + platforms[1].width * 4, 450);
+            platforms.push(platforms.shift());
+        }
+
+        platforms[0].move(-4000, 0);
+        platforms[1].moveTo(platforms[0].pos.x + platforms[1].width * 4, 450);
+    })
 }
