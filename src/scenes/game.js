@@ -1,4 +1,5 @@
 import { makeMotobug } from "../entities/motobug";
+import { makeRing } from "../entities/ring";
 import { makeSonic } from "../entities/sonic";
 import k from "../kaplayCtx";
 
@@ -88,6 +89,25 @@ export default function game() {
 
     // Spawning enemy entities
     spawnMotoBug();
+
+
+    // Spawning rings entities
+    const spawnRing = () => {
+        const ring = makeRing(k.vec2(1950, 745));
+        console.log("Rings created");
+        ring.onUpdate(() => {
+            ring.move(-gameSpeed, 0);
+        });
+        ring.onExitScreen(() => {
+            if (ring.pos.x < 0) k.destroy(ring);
+        })
+
+        // Recusrsive function for infinite spawning
+        const waitTime = k.rand(0.5, 3);
+        k.wait(waitTime, spawnRing);
+    };
+
+    spawnRing();
 
     // Setting up the "plateform" where the entitie stand to not be affected by physics
     k.add([
