@@ -1,5 +1,6 @@
 import k from "./kaplayCtx";
 import game from "./scenes/game";
+import gameover from "./scenes/gameover";
 import mainMenu from "./scenes/mainMenu";
 
 // We use loadAseprite to load a visual
@@ -46,6 +47,6 @@ k.scene("main-menu", mainMenu);
 
 k.scene("game", game);
 
-k.scene("game-over", () => { });
+k.scene("game-over", gameover);
 
 k.go("main-menu");

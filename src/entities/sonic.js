@@ -9,6 +9,7 @@ export function makeSonic(pos) {
         k.pos(pos),
         k.body({ jumpForce: 1500 }), // Offers the isGrounded method
         {
+            ringCollectUI: null,
             setControls() {
                 k.onButtonPress("jump", () => {
                     if (this.isGrounded()) {
@@ -25,6 +26,14 @@ export function makeSonic(pos) {
                 });
             },
         },
+    ]);
+
+    // .add on a game object will create a child game object
+    sonic.ringCollectUI = sonic.add([
+        k.text("", { font: "mania", size: 24 }),
+        k.color(255, 255, 0),
+        k.anchor("center"),
+        k.pos(30, -10), // Relative to sonic value
     ]);
 
     return sonic;

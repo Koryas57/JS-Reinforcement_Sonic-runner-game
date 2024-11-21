@@ -5,6 +5,8 @@ import k from "../kaplayCtx";
 
 export default function game() {
     k.setGravity(3100); // Gravity is useless whitout body component to interact with
+    // If not in a const, it will loop outside of the scene
+    const citySfx = k.play("city", { volume: 0.2, loop: true });
 
     const bgPieceWidth = 1920;
     const bgPieces = [
@@ -51,22 +53,29 @@ export default function game() {
             // Player get a 10x multi for bumping an enemy
             score += 10 * scoreMultiplier
             scoreText.text = `SCORE : ${score}`;
+            if (scoreMultiplier === 1) sonic.ringCollectUI.text = "+10";
+            if (scoreMultiplier > 1) sonic.ringCollectUI.text = `x${scoreMultiplier}`;
+            k.wait(2, () => (sonic.ringCollectUI.text = ""));
             return;
         }
 
         // If a collision occure on the ground, sonic is hurt and so we play the sound and redirect the player to game-over
         k.play("hurt", { volume: 0.5 });
-        // TODO
-        k.go("game-over");
+        k.setData("current-score", score);
+        k.go("game-over", citySfx);
 
-    })
+    });
+
+
     sonic.onCollide("ring", (ring) => {
         k.play("ring", { volume: 0.5 });
         k.destroy(ring);
         score++;
         console.log("Current score = ", score);
         scoreText.text = `SCORE : ${score}`;
-
+        // Ring collected +1 animation
+        sonic.ringCollectUI.text = "+1"
+        k.wait(1, () => (sonic.ringCollectUI.text = ""));
     });
 
     // Speed settings
