@@ -45,6 +45,7 @@ export default function game() {
         // tags are really usefull in case of using collisions
     ]);
 
+    // Refreshing method explained in mainMenu.js
     k.onUpdate(() => {
 
         if (bgPieces[1].pos.x < 0) {
@@ -63,5 +64,9 @@ export default function game() {
         // As gameSpeed value increase, the platform[0] will speed up it translation giving an illusion of progressive running speed
         platforms[0].move(-gameSpeed, 0);
         platforms[1].moveTo(platforms[0].pos.x + platformsWidth * 4, 450);
+
+        // Bakcground moving in reversed according to sonic vertical position
+        bgPieces[0].moveTo(bgPieces[0].pos.x, -sonic.pos.y / 20 - 50);
+        bgPieces[1].moveTo(bgPieces[1].pos.x, -sonic.pos.y / 20 - 50);
     });
 }

@@ -63,7 +63,7 @@ export default function mainMenu() {
         }
 
         // Speed difference with the background for a parallax scrolling effect
-        platforms[0].move(-4000, 0);
+        platforms[0].move(-2800, 0);
         platforms[1].moveTo(platforms[0].pos.x + platforms[1].width * 4, 450);
     })
 }
