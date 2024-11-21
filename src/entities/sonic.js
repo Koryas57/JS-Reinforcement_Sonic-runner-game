@@ -7,7 +7,7 @@ export function makeSonic(pos) {
         k.area(),
         k.anchor("center"),
         k.pos(pos),
-        k.body({ jumpForce: 1700 }), // Offers the isGrounded method
+        k.body({ jumpForce: 1500 }), // Offers the isGrounded method
         {
             setControls() {
                 k.onButtonPress("jump", () => {
