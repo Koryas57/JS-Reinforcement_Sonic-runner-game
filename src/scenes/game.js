@@ -23,6 +23,15 @@ export default function game() {
         k.add([k.sprite("platforms"), k.pos(platformsWidth, 450), k.scale(4)]),
     ];
 
+    // Score handling
+    let score = 0;
+    let scoreMultiplier = 0;
+    // Score displaying text will be updated in onCollide("ring")
+    const scoreText = k.add([
+        k.text("SCORE : 0", { font: "mania", size: 72 }),
+        k.pos(20, 20),
+    ]);
+
     // Spawning entity
     const sonic = makeSonic(k.vec2(200, 745));
 
@@ -38,7 +47,10 @@ export default function game() {
             k.destroy(enemy);
             sonic.play("jump");
             sonic.jump();
-            // TODO
+            scoreMultiplier += 1;
+            // Player get a 10x multi for bumping an enemy
+            score += 10 * scoreMultiplier
+            scoreText.text = `SCORE : ${score}`;
             return;
         }
 
@@ -48,7 +60,14 @@ export default function game() {
         k.go("game-over");
 
     })
+    sonic.onCollide("ring", (ring) => {
+        k.play("ring", { volume: 0.5 });
+        k.destroy(ring);
+        score++;
+        console.log("Current score = ", score);
+        scoreText.text = `SCORE : ${score}`;
 
+    });
 
     // Speed settings
     let gameSpeed = 300;
@@ -121,6 +140,8 @@ export default function game() {
 
     // Refreshing method explained in mainMenu.js
     k.onUpdate(() => {
+
+        if (sonic.isGrounded()) scoreMultiplier = 0;
 
         if (bgPieces[1].pos.x < 0) {
             bgPieces[0].moveTo(bgPieces[1].pos.x + bgPieceWidth * 2, 0);
