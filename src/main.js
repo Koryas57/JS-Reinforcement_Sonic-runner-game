@@ -1,4 +1,5 @@
 import k from "./kaplayCtx";
+import game from "./scenes/game";
 import mainMenu from "./scenes/mainMenu";
 
 // We use loadAseprite to load a visual
@@ -43,7 +44,7 @@ k.loadSound("city", "sounds/city.mp3");
 
 k.scene("main-menu", mainMenu);
 
-k.scene("game", () => { });
+k.scene("game", game);
 
 k.scene("game-over", () => { });
 
