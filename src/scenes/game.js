@@ -1,3 +1,4 @@
+import { makeMotobug } from "../entities/motobug";
 import { makeSonic } from "../entities/sonic";
 import k from "../kaplayCtx";
 
@@ -28,12 +29,65 @@ export default function game() {
     sonic.setControls();
     sonic.setEvents();
 
+    // On collision with "enemy" key, onCollide give the game object related to as a parameter for the function that we gonna execute
+    sonic.onCollide("enemy", (enemy) => {
+        if (!sonic.isGrounded()) {
+            k.play("destroy", { volume: 0.5 });
+            k.play("hyper-ring", { volume: 0.5 });
+            k.destroy(enemy);
+            sonic.play("jump");
+            sonic.jump();
+            // TODO
+            return;
+        }
+
+        // If a collision occure on the ground, sonic is hurt and so we play the sound and redirect the player to game-over
+        k.play("hurt", { volume: 0.5 });
+        // TODO
+        k.go("game-over");
+
+    })
+
+
     // Speed settings
     let gameSpeed = 300;
     k.loop(1, () => { // In seconds
         gameSpeed += 50;
-        console.log("Higher Speed")
+        console.log("Speed = ", gameSpeed);
     });
+
+    // Arrow function get the same context as the parent function until they not create their own scope
+    const spawnMotoBug = () => {
+        // Positioning the entity with vec2, out of the screen
+        const motobug = makeMotobug(k.vec2(1950, 773));
+        console.log("Enemy n°" + motobug.id + " created");
+        // Specific update loop, so when the object will be destroyed, the loop will be too, avoiding us performances issues
+        motobug.onUpdate(() => {
+            // Speed settings until 3000
+            if (gameSpeed < 3000) {
+                // Negative x-velocity to create a move to the left
+                motobug.move(-(gameSpeed + 300), 0);
+                return;
+            }
+
+            // When the gameSpeed increase a lot, for gameplay reason, we will define the motobug as the same speed as the platform
+            motobug.move(-gameSpeed, 0);
+        });
+
+        // With the offscreen component we get access to onExitScreen method who run a function when object goes out of view, we will use it to destroy motobugs object
+        motobug.onExitScreen(() => {
+            if (motobug.pos.x < 0) k.destroy(motobug);
+        })
+
+        // Recursive function for infinite enemies spawner
+        // We use .rand method from Kaplay, to get a random value that we will give to .wait, who will wait random seconds to run itself, generating a new random delay and spawning motobug entities infinitely
+        const waitTime = k.rand(0.5, 2.5);
+        k.wait(waitTime, spawnMotoBug);
+
+    };
+
+    // Spawning enemy entities
+    spawnMotoBug();
 
     // Setting up the "plateform" where the entitie stand to not be affected by physics
     k.add([
