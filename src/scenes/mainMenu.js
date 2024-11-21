@@ -1,6 +1,8 @@
 import k from "../kaplayCtx";
+import { makeSonic } from "../entities/sonic";
 
 export default function mainMenu() {
+
     // First, we set the high score logic
     if (!k.getData("best-score")) k.setData("best-score", 0);
     // onButtonPress is an event handler, it take as 1st parameter the key we want to listen on, then, when the key is pressed, it is going to run the function that is passed as the second parameter. Here we call the .go function with "game" key to change the scene to the one where the actual game is.
@@ -24,6 +26,23 @@ export default function mainMenu() {
         k.add([k.sprite("platforms"), k.pos(platformsWidth * 4, 450), k.scale(4)]),
     ];
 
+
+    k.add([
+        k.text("SONIC RUSH ADVENTURES", { font: "mania", size: 96 }),
+        k.pos(k.center().x, 200), // .center return a Vec2 that we can use to specify a position
+        k.anchor("center"), // Set the origin from the top left corner to the center
+    ]);
+
+
+    k.add([
+        k.text("Press Space/Click/Touch to Play", { font: "mania", size: 32 }),
+        k.anchor("center"),
+        k.pos(k.center().x, k.center().y - 200),
+    ]);
+
+
+    makeSonic(k.vec2(200, 745)); // vec2 let us positioning our entities with 2D Vector
+
     // The function that is going to run every frame
     k.onUpdate(() => {
         // Background infinite animation
@@ -43,6 +62,7 @@ export default function mainMenu() {
             platforms.push(platforms.shift());
         }
 
+        // Speed difference with the background for a parallax scrolling effect
         platforms[0].move(-4000, 0);
         platforms[1].moveTo(platforms[0].pos.x + platforms[1].width * 4, 450);
     })
