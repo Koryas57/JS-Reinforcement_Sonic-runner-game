@@ -10,18 +10,19 @@ export default function gameover(citySfx) {
 
     // Gestion des grades de rang
     const rankGrades = [
-        "Fais un effort !",
-        "Tu commences à piger le truc",
-        "Bravo, belle série",
-        "Tu y étais presque !!",
-        "Bienvenu dans les 5% !",
-        "Tu es une machine",
-        "Acharné(e)."
+        "Essaye encore !",
+        "Pas mal, continue !",
+        "Bien joué !",
+        "Superbe série !",
+        "L'élite t'attend !",
+        "Champion confirmé !",
+        "Légendaire !",
     ];
+
     const rankValues = [50, 80, 100, 200, 300, 400, 500];
 
-    let currentRank = "Fais un effort !";
-    let bestRank = "Fais un effort !";
+    let currentRank = "Essaye encore !";
+    let bestRank = "Essaye encore !";
 
     for (let i = 0; i < rankValues.length; i++) {
         if (rankValues[i] < currentScore) {
