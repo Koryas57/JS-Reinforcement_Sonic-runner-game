@@ -28,17 +28,24 @@ export default function mainMenu() {
 
 
     k.add([
-        k.text("SONIC RUSH ADVENTURES", { font: "mania", size: 96 }),
+        k.text("SHINOBI RUSH ADVENTURES", { font: "mania", size: 96 }),
         k.pos(k.center().x, 200), // .center return a Vec2 that we can use to specify a position
         k.anchor("center"), // Set the origin from the top left corner to the center
     ]);
 
+    k.wait(0.5, () => {
+        const touchToPlay =
+            k.add([
+                k.text("Press Space/Click/Touch to Play", { font: "mania", size: 32 }),
+                k.anchor("center"),
+                k.pos(k.center().x, k.center().y - 200),
+            ]);
 
-    k.add([
-        k.text("Press Space/Click/Touch to Play", { font: "mania", size: 32 }),
-        k.anchor("center"),
-        k.pos(k.center().x, k.center().y - 200),
-    ]);
+        k.loop(0.5, () => {
+            touchToPlay.hidden = !touchToPlay.hidden;
+        });
+
+    })
 
 
     makeShinobi(k.vec2(300, 647)); // vec2 let us positioning our entities with 2D Vector

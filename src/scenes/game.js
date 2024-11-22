@@ -75,13 +75,13 @@ export default function game() {
         scoreText.text = `SCORE : ${score}`;
         // Ring collected +1 animation
         shinobi.ringCollectUI.text = "+1"
-        k.wait(1, () => (shinobi.ringCollectUI.text = ""));
+        k.wait(2, () => (shinobi.ringCollectUI.text = ""));
     });
 
     // Speed settings
     let gameSpeed = 300;
     k.loop(1, () => { // In seconds
-        gameSpeed += 50;
+        gameSpeed += 25;
         console.log("Speed = ", gameSpeed);
     });
 

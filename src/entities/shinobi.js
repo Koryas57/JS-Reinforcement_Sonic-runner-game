@@ -5,7 +5,7 @@ export function makeShinobi(pos) {
         k.sprite("shinobi_run", { anim: "run" }),
         k.scale(3),
         k.area({
-            shape: new k.Rect(k.vec2(-15, 20), 30, 80),
+            shape: new k.Rect(k.vec2(-15, 20), 40, 80),
         }),
         k.anchor("center"),
         k.pos(pos),
