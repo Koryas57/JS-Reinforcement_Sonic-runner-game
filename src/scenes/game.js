@@ -44,8 +44,8 @@ export default function game() {
     // On collision with "enemy" key, onCollide give the game object related to as a parameter for the function that we gonna execute
     shinobi.onCollide("enemy", (enemy) => {
         if (!shinobi.isGrounded()) {
-            k.play("destroy", { volume: 0.5 });
-            k.play("hyper-ring", { volume: 0.5 });
+            k.play("destroy", { volume: 0.2 });
+            k.play("hyper-ring", { volume: 0.2 });
             k.destroy(enemy);
             shinobi.play("jump");
             shinobi.jump();
@@ -68,7 +68,7 @@ export default function game() {
 
 
     shinobi.onCollide("ring", (ring) => {
-        k.play("ring", { volume: 0.5 });
+        k.play("ring", { volume: 0.1 });
         k.destroy(ring);
         score++;
         console.log("Current score = ", score);

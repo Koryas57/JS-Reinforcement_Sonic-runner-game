@@ -64,3 +64,16 @@ k.scene("game", game);
 k.scene("game-over", gameover);
 
 k.go("main-menu");
+
+// Service Worker
+
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+        .register("/service-worker.js") // Le chemin doit correspondre à l'emplacement réel du fichier
+        .then((registration) => {
+            console.log("Service Worker registered with scope:", registration.scope);
+        })
+        .catch((error) => {
+            console.error("Service Worker registration failed:", error);
+        });
+}

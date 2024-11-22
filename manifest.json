@@ -1,0 +1,20 @@
+{
+    "name": "Shinobi Rush Adventures",
+    "short_name": "Shinobi Rush",
+    "start_url": "/",
+    "display": "fullscreen",
+    "background_color": "#000000",
+    "theme_color": "#0000FF",
+    "icons": [
+      {
+        "src": "graphics/chemical-bg.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "graphics/chemical-bg.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
