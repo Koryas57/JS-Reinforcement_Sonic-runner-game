@@ -1,5 +1,5 @@
 import k from "../kaplayCtx";
-import { makeSonic } from "../entities/sonic";
+import { makeShinobi } from "../entities/shinobi";
 
 export default function mainMenu() {
 
@@ -41,7 +41,8 @@ export default function mainMenu() {
     ]);
 
 
-    makeSonic(k.vec2(200, 745)); // vec2 let us positioning our entities with 2D Vector
+    makeShinobi(k.vec2(300, 647)); // vec2 let us positioning our entities with 2D Vector
+    // makeSonic(k.vec2(200, 745));
 
     // The function that is going to run every frame
     k.onUpdate(() => {

@@ -7,6 +7,20 @@ import mainMenu from "./scenes/mainMenu";
 
 k.loadSprite("chemical-bg", "graphics/chemical-bg.png");
 k.loadSprite("platforms", "graphics/platforms.png");
+k.loadSprite("shinobi_run", "graphics/shinobi_run.png", {
+    sliceX: 8,
+    sliceY: 1,
+    anims: {
+        run: { from: 0, to: 7, loop: true, speed: 20 },
+    },
+});
+k.loadSprite("shinobi_jump", "graphics/shinobi_jump.png", {
+    sliceX: 12,
+    sliceY: 1,
+    anims: {
+        jump: { from: 0, to: 11, loop: true, speed: 14 },
+    },
+});
 k.loadSprite("sonic", "graphics/sonic.png", {
     sliceX: 8, // How many frames per rows
     sliceY: 2, // How many frames per coloumns
@@ -41,7 +55,7 @@ k.loadSound("hurt", "sounds/Hurt.wav");
 k.loadSound("hyper-ring", "sounds/HyperRing.wav");
 k.loadSound("jump", "sounds/Jump.wav");
 k.loadSound("ring", "sounds/Ring.wav");
-k.loadSound("city", "sounds/city.mp3");
+k.loadSound("cityMusic", "sounds/RemixSonic.wav");
 
 k.scene("main-menu", mainMenu);
 

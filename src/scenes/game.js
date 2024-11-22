@@ -1,12 +1,12 @@
 import { makeMotobug } from "../entities/motobug";
 import { makeRing } from "../entities/ring";
-import { makeSonic } from "../entities/sonic";
+import { makeShinobi } from "../entities/shinobi";
 import k from "../kaplayCtx";
 
 export default function game() {
     k.setGravity(3100); // Gravity is useless whitout body component to interact with
     // If not in a const, it will loop outside of the scene
-    const citySfx = k.play("city", { volume: 0.2, loop: true });
+    const citySfx = k.play("cityMusic", { volume: 0.2, loop: true });
 
     const bgPieceWidth = 1920;
     const bgPieces = [
@@ -35,27 +35,27 @@ export default function game() {
     ]);
 
     // Spawning entity
-    const sonic = makeSonic(k.vec2(200, 745));
+    const shinobi = makeShinobi(k.vec2(300, 547));
 
     // Controls settings
-    sonic.setControls();
-    sonic.setEvents();
+    shinobi.setControls();
+    shinobi.setEvents();
 
     // On collision with "enemy" key, onCollide give the game object related to as a parameter for the function that we gonna execute
-    sonic.onCollide("enemy", (enemy) => {
-        if (!sonic.isGrounded()) {
+    shinobi.onCollide("enemy", (enemy) => {
+        if (!shinobi.isGrounded()) {
             k.play("destroy", { volume: 0.5 });
             k.play("hyper-ring", { volume: 0.5 });
             k.destroy(enemy);
-            sonic.play("jump");
-            sonic.jump();
+            shinobi.play("jump");
+            shinobi.jump();
             scoreMultiplier += 1;
             // Player get a 10x multi for bumping an enemy
             score += 10 * scoreMultiplier
             scoreText.text = `SCORE : ${score}`;
-            if (scoreMultiplier === 1) sonic.ringCollectUI.text = "+10";
-            if (scoreMultiplier > 1) sonic.ringCollectUI.text = `x${scoreMultiplier}`;
-            k.wait(2, () => (sonic.ringCollectUI.text = ""));
+            if (scoreMultiplier === 1) shinobi.ringCollectUI.text = "+10";
+            if (scoreMultiplier > 1) shinobi.ringCollectUI.text = `x${scoreMultiplier}`;
+            k.wait(2, () => (shinobi.ringCollectUI.text = ""));
             return;
         }
 
@@ -67,15 +67,15 @@ export default function game() {
     });
 
 
-    sonic.onCollide("ring", (ring) => {
+    shinobi.onCollide("ring", (ring) => {
         k.play("ring", { volume: 0.5 });
         k.destroy(ring);
         score++;
         console.log("Current score = ", score);
         scoreText.text = `SCORE : ${score}`;
         // Ring collected +1 animation
-        sonic.ringCollectUI.text = "+1"
-        k.wait(1, () => (sonic.ringCollectUI.text = ""));
+        shinobi.ringCollectUI.text = "+1"
+        k.wait(1, () => (shinobi.ringCollectUI.text = ""));
     });
 
     // Speed settings
@@ -131,8 +131,23 @@ export default function game() {
         })
 
         // Recusrsive function for infinite spawning
-        const waitTime = k.rand(0.5, 3);
+        const waitTime = k.rand(0.3, 1.5);
         k.wait(waitTime, spawnRing);
+    };
+
+    const spawnAirRings = () => {
+        const AirRing = makeRing(k.vec2(1950, 345));
+        console.log("Air Rings created");
+        AirRing.onUpdate(() => {
+            AirRing.move(-gameSpeed, 0);
+        });
+        AirRing.onExitScreen(() => {
+            if (AirRing.pos.x < 0) k.destroy(AirRing);
+        })
+
+        // Recusrsive function for infinite spawning
+        const waitTime = k.rand(1.8, 2.2);
+        k.wait(waitTime + 0.5, spawnAirRings);
     };
 
     spawnRing();
@@ -150,7 +165,7 @@ export default function game() {
     // Refreshing method explained in mainMenu.js
     k.onUpdate(() => {
 
-        if (sonic.isGrounded()) scoreMultiplier = 0;
+        if (shinobi.isGrounded()) scoreMultiplier = 0;
 
         if (bgPieces[1].pos.x < 0) {
             bgPieces[0].moveTo(bgPieces[1].pos.x + bgPieceWidth * 2, 0);
@@ -163,6 +178,7 @@ export default function game() {
         if (platforms[1].pos.x < 0) {
             platforms[0].moveTo(platforms[1].pos.x + platformsWidth * 4, 450);
             platforms.push(platforms.shift());
+            spawnAirRings();
         }
 
         // As gameSpeed value increase, the platform[0] will speed up it translation giving an illusion of progressive running speed
@@ -170,7 +186,7 @@ export default function game() {
         platforms[1].moveTo(platforms[0].pos.x + platformsWidth * 4, 450);
 
         // Bakcground moving in reversed according to sonic vertical position
-        bgPieces[0].moveTo(bgPieces[0].pos.x, -sonic.pos.y / 20 - 50);
-        bgPieces[1].moveTo(bgPieces[1].pos.x, -sonic.pos.y / 20 - 50);
+        bgPieces[0].moveTo(bgPieces[0].pos.x, -shinobi.pos.y / 20 - 50);
+        bgPieces[1].moveTo(bgPieces[1].pos.x, -shinobi.pos.y / 20 - 50);
     });
 }
